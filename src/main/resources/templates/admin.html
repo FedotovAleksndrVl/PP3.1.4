@@ -9,7 +9,7 @@
 
 
 </head>
-<body onload="getUser(); getUsers()">
+<body onload="getUserBar(); getUsers()">
 
 <div class="container-fluid">
     <div class="card text-white bg-dark">
@@ -31,8 +31,8 @@
         <div class="d-flex align-items-start">
             <div class="col-lg-1 col-md-3">
                 <div class="nav flex-column nav-pills me-3" id="myTabM" role="tablist" aria-orientation="vertical">
-                    <button class="nav-link active" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="true" >Админ</button>
-                    <button class="nav-link" id="user-tab" data-bs-toggle="tab" data-bs-target="#user" type="button" role="tab" aria-controls="user" aria-selected="false">Юзер</button>
+                    <button class="nav-link active" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="true" onclick="getUsers()">Админ</button>
+                    <button class="nav-link" id="user-tab" data-bs-toggle="tab" data-bs-target="#user" type="button" role="tab" aria-controls="user" aria-selected="false" onclick="getUser()">Юзер</button>
                 </div>
             </div>
             <div class="col-lg-3  col-md-5">
@@ -43,10 +43,10 @@
                         </div>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Пользователи</button>
+                                <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true" onclick="getUsers()">Пользователи</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="false">Создать нового</button>
+                                <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="false" onclick="getRoles()">Создать нового</button>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContents">
@@ -64,7 +64,7 @@
                                         <th scope="col">Удалить</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="tableUsers"><tr><td> !!! </td></tr></tbody>
+                                    <tbody id="tableUsers"></tbody>
                                 </table>
                             </div>
 
@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row d-flex flex-column align-items-lg-center justify-content-xl-center align-items-xl-center">
-                                            <form>
+                                            <div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="firstName"><b>Имя</b></label>
                                                     <input id="firstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Имя" required>
@@ -99,74 +99,59 @@
                                                     <input id="password" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="пароль" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="roles"><b>Roles</b></label>
+                                                    <label for="roles"><b>Роли</b></label>
                                                     <select id="roles" class="form-control justify-content-lg-center align-items-lg-center" multiple style="width: 400px;" required>
-                                                        <option>
 
-                                                        </option>
                                                     </select>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <button type="submit" class="btn btn-success">Добавить пользователя</button>
+                                                    <button type="submit" class="btn btn-success" onclick="newUser()">Добавить пользователя</button>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="modal fade" id="FormUser" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <form>
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="FormUserValue">Изменить пользователя</h5>
+                                            <h3 class="modal-title" id="FormUserValue">Изменить пользователя</h3>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="id" class="form-label justify-content-lg-center justify-content-xl-center"><b>ИД</b></label>
-                                                    <input id="id" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%"
-                                                           name="id"
-                                                           type="text">
+                                                    <input id="id" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="editFirstName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Имя</b></label>
-                                                    <input id="editFirstName" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%"
-                                                           name="firstName"
-                                                           type="text">
+                                                    <input id="editFirstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="editLastName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Фамилия</b></label>
-                                                    <input id="editLastName" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%"
-                                                           name="lastName"
-                                                           type="text">
+                                                    <input id="editLastName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="editAge" class="form-label justify-content-lg-center justify-content-xl-center"><b>Возраст</b></label>
-                                                    <input id="editAge" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%"
-                                                           name="age"
-                                                           type="number">
+                                                    <input id="editAge" type="number" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="editEmail" class="form-label justify-content-lg-center justify-content-xl-center"><b>Електронная почта</b></label>
-                                                    <input id="editEmail" class="form-control form-control-sm justify-content-lg-center align-items-lg-center" style="width: 50%"
-                                                           name="login"
-                                                           type="email">
+                                                    <input id="editEmail" type="email" class="form-control form-control-sm justify-content-lg-center align-items-lg-center" style="width: 50%">
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="editPassword"class="form-label justify-content-lg-center justify-content-xl-center"><b>Пароль</b></label>
-                                                    <input id="editPassword" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%"
-                                                           name="password">
+                                                    <label for="editPassword" class="form-label justify-content-lg-center justify-content-xl-center"><b></b></label>
+                                                    <input id="editPassword" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="editRole" class="form-label justify-content-lg-center justify-content-xl-center"><b>Роли</b></label>
-                                                    <select id="editRole" class="form-select justify-content-lg-center align-items-lg-center" multiple="multiple"style="width: 50%"
-                                                            name="roles">
-                                                        <option value="ROLE_ADMIN">Админ</option>
-                                                        <option value="ROLE_USER">Юзер</option>
+                                                    <select id="editRole" class="form-select justify-content-lg-center align-items-lg-center" multiple="multiple"style="width: 50%">
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -197,7 +182,7 @@
                                         <th scope="col">Роль</th>
                                     </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody id="tableUser"></tbody>
                                 </table>
                             </div>
                         </div>

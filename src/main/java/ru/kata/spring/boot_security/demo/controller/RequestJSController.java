@@ -1,25 +1,27 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class RequestJSController {
 
     final private UserServiceImpl userService;
+    final private RoleServiceImpl roleService;
 
     @Autowired
-    public RequestJSController(UserServiceImpl userService) {
+    public RequestJSController(UserServiceImpl userService, RoleServiceImpl roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/js/user")
@@ -34,5 +36,16 @@ public class RequestJSController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("/js/roles")
+    public ResponseEntity<Set<Role>> getRoles() {
+        System.out.println("Запрос ролей, ответ таков: ");
+        return ResponseEntity.ok(roleService.findAllRole());
+    }
 
+    @PostMapping("/js/saveUser")
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        System.out.println("Сохранение юзера: " + user);
+        userService.saveUser(user);
+        return ResponseEntity.ok(user);
+    }
 }

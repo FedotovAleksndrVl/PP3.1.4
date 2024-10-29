@@ -53,6 +53,7 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String listUsers(Principal principal, Model model) {
+        System.out.println("Страница загружена");
         model.addAttribute("user", new User());
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("roles", roleService.findAllRole());
