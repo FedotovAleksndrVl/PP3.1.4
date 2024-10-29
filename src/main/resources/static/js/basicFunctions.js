@@ -39,11 +39,24 @@ function tableUsersUpdate(users) {
     tableUsers.innerHTML = result
 }
 
+function validation (id, type, value, oldValidation) {
+    let result = false
+    switch (value) {
+        case "text":
+        case "mail":
+        case "number":
+        case "password":
+    }
+
+    return oldValidation ? true : result
+}
+
 
 async function newUser() {
-    //alert("отработал")
+
     const options = document.getElementById('roles').selectedOptions;
-    //const roles = Array.from(options).map(({ value }) => value);
+
+
 
     const newUser = {
         firstName: document.getElementById('firstName').value,

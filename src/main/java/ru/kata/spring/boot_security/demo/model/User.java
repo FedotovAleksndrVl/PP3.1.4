@@ -51,19 +51,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
-
     public boolean ifRole(String role) {
         for (Role roles : roles) {
             if (roles.getRole().equals(role)) {

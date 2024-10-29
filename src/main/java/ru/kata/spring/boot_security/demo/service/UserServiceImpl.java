@@ -12,23 +12,29 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserDetailsService, UserService {
 
     final private UserRepository userRepository;
+    private RoleService roleService;
     final private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
     public void saveUser(User user) {
+        user.setRoles(user.getRoles().stream()
+                .map(role -> roleService.findRoleByRole(role.getRole()))
+                .collect(Collectors.toSet()));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

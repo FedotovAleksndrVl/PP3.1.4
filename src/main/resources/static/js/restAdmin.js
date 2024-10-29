@@ -44,7 +44,8 @@ async function getUsers() {
 }
 
 async function saveUser(user) {
-    let answer = await fetch("/js/saveUser",{
+    alert("передаю юзера : " + JSON.stringify(user))
+    let answer = await fetch("js/saveUser",{
             method: 'Post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(user)
