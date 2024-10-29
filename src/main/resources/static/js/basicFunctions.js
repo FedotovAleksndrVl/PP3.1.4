@@ -40,7 +40,7 @@ function tableUsersUpdate(users) {
 }
 
 function validation (id, type, value, oldValidation) {
-    let result = false
+    let result
     switch (value) {
         case "text":
         case "mail":
@@ -56,8 +56,6 @@ async function newUser() {
 
     const options = document.getElementById('roles').selectedOptions;
 
-
-
     const newUser = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
@@ -67,6 +65,7 @@ async function newUser() {
         roles: Array.from(options).map(({ value }) => value)
     }
     await saveUser(newUser)
+    document.getElementById("formNewUser").reset()
 }
 
 function setRoles(roles){
