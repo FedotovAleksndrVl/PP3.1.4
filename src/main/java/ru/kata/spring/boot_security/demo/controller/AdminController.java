@@ -61,6 +61,7 @@ public class AdminController {
         return "admin";
     }
 
+    /*
     @PatchMapping("/admin")
     public String update(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
         System.out.println(user);
@@ -91,7 +92,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    /*
+
     @PostMapping("/create")
     public String createOne() {
         if (userService.ifLogin("login")) {

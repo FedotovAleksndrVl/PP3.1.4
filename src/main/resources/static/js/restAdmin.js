@@ -1,9 +1,10 @@
-async function getRoles(){
+
+async function getRoles(type){
     let answer = await fetch("/js/roles")
 
     if (answer.ok) {
         let roles = await answer.json()
-        setRoles(roles)
+        setRoles(roles, type)
         //alert (roles.map((role) => `${role.value}`).join(", "))
     } else {
         alert("что-то пошло не так, статус ошибки: " + answer.status)
@@ -32,9 +33,19 @@ async function getUser() {
     }
 }
 
+async function getUserId(id, type) {
+    let answer = await fetch("js/user/" + id)
+
+    if (answer.ok) {
+        let User = await answer.json()
+        await showUser(User, type)
+    } else {
+        alert("что-то пошло не так, статус ошибки: " + answer.status)
+    }
+}
+
 async function getUsers() {
     let answer = await fetch("js/users")
-
     if (answer.ok) {
         let Users = await answer.json()
         tableUsersUpdate(Users)
@@ -44,40 +55,34 @@ async function getUsers() {
 }
 
 async function saveUser(user) {
-    alert("передаю юзера : " + JSON.stringify(user))
-    let answer = await fetch("js/saveUser",{
+    const answer = await fetch("js/saveUser",{
             method: 'Post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(user)
     })
     if (!answer.ok) {
-        alert("что-то пошло не так при сохранении юзера: " + JSON.stringify(user) + " статус ошибки: " + answer.status)
-    } else {
-        alert("все так, статус: " + answer.status)
-    }
-}
-
-async function editUser(id) {
-    const answer = await fetch("js/update")
-
-    if (answer.ok) {
-        const User = await answer.json()
-        updateUser(User)
-    } else {
         alert("что-то пошло не так, статус ошибки: " + answer.status)
     }
 }
 
-async function deleteUser(id) {
-    const answer = await fetch("js/delete")
-
-    if (answer.ok) {
-        const Users = await answer.json()
-        delUser(Users)
-    } else {
+async function sendEditUser(user) {
+    const answer = await fetch("js/editUser",{
+        method: 'Put',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(user)
+    })
+    if (!answer.ok) {
         alert("что-то пошло не так, статус ошибки: " + answer.status)
     }
 }
 
-
-//usersLoad()
+async function sendDeleteUser(user) {
+    const answer = await fetch("js/deleteUser",{
+        method: 'Delete',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(user)
+    })
+    if (!answer.ok) {
+        alert("что-то пошло не так, статус ошибки: " + answer.status)
+    }
+}

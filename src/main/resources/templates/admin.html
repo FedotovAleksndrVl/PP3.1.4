@@ -46,7 +46,7 @@
                                 <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true" onclick="getUsers()">Пользователи</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="false" onclick="getRoles()">Создать нового</button>
+                                <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="false" onclick='getRoles("roles"); setPlaceholder("")'>Создать нового</button>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContents">
@@ -78,29 +78,29 @@
                                             <form id="formNewUser">
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="firstName"><b>Имя</b></label>
-                                                    <input id="firstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Имя">
+                                                    <input id="firstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Имя" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="lastName"><b>Фамилия</b></label>
-                                                    <input id="lastName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Фамилия">
+                                                    <input id="lastName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Фамилия" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="age"><b>Возраст</b></label>
                                                     <div class="input-group" style="width: 400px;">
-                                                        <input id="age" type="number" class="form-control justify-content-lg-center align-items-lg-center" placeholder="Возраст">
+                                                        <input id="age" type="number" class="form-control justify-content-lg-center align-items-lg-center" placeholder="Возраст" required>
                                                     </div>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="login"><b>Электронная почта</b></label>
-                                                    <input id="login" type="email" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Адрес электронной почты">
+                                                    <input id="login" type="email" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Адрес электронной почты" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="password"><b>Пароль</b></label>
-                                                    <input id="password" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="пароль">
+                                                    <input id="password" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="пароль" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="roles"><b>Роли</b></label>
-                                                    <select id="roles" class="form-control justify-content-lg-center align-items-lg-center" multiple style="width: 400px;">
+                                                    <label id="rolesLabel" for="roles"><b>Роли</b></label>
+                                                    <select id="roles" class="form-control justify-content-lg-center align-items-lg-center" multiple style="width: 400px;" required>
 
                                                     </select>
                                                 </div>
@@ -119,38 +119,38 @@
                                 <div class="modal-content">
                                     <form>
                                         <div class="modal-header">
-                                            <h3 class="modal-title" id="FormUserValue">Изменить пользователя</h3>
+                                            <h3 class="modal-title">Изменить пользователя</h3>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="id" class="form-label justify-content-lg-center justify-content-xl-center"><b>ИД</b></label>
-                                                    <input id="id" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
+                                                    <label for="editid" class="form-label justify-content-lg-center justify-content-xl-center"><b>ИД</b></label>
+                                                    <input id="editid" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" readonly>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="editFirstName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Имя</b></label>
-                                                    <input id="editFirstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
+                                                    <label for="editfirstName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Имя</b></label>
+                                                    <input id="editfirstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="editLastName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Фамилия</b></label>
-                                                    <input id="editLastName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
+                                                    <label for="editlastName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Фамилия</b></label>
+                                                    <input id="editlastName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="editAge" class="form-label justify-content-lg-center justify-content-xl-center"><b>Возраст</b></label>
-                                                    <input id="editAge" type="number" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
+                                                    <label for="editage" class="form-label justify-content-lg-center justify-content-xl-center"><b>Возраст</b></label>
+                                                    <input id="editage" type="number" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="editEmail" class="form-label justify-content-lg-center justify-content-xl-center"><b>Електронная почта</b></label>
-                                                    <input id="editEmail" type="email" class="form-control form-control-sm justify-content-lg-center align-items-lg-center" style="width: 50%">
+                                                    <label for="editlogin" class="form-label justify-content-lg-center justify-content-xl-center"><b>Електронная почта</b></label>
+                                                    <input id="editlogin" type="email" class="form-control form-control-sm justify-content-lg-center align-items-lg-center" style="width: 50%" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="editPassword" class="form-label justify-content-lg-center justify-content-xl-center"><b></b></label>
-                                                    <input id="editPassword" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
+                                                    <label for="editpassword" class="form-label justify-content-lg-center justify-content-xl-center"><b>Пароль</b></label>
+                                                    <input id="editpassword" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="editRole" class="form-label justify-content-lg-center justify-content-xl-center"><b>Роли</b></label>
-                                                    <select id="editRole" class="form-select justify-content-lg-center align-items-lg-center" multiple="multiple"style="width: 50%">
+                                                    <label id="editrolesLabel" for="editRoles" class="form-label justify-content-lg-center justify-content-xl-center"><b>Роли</b></label>
+                                                    <select id="editroles" class="form-select justify-content-lg-center align-items-lg-center" multiple="multiple"style="width: 50%" required>
 
                                                     </select>
                                                 </div>
@@ -158,12 +158,64 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Закрыть</button>
-                                            <button class="btn btn-primary" type="submit">Применить</button>
+                                            <button class="btn btn-primary" type="button" onclick="editUser()">Применить</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <form>
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Удалить пользователя</h3>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
+                                                    <label for="deleteId" class="form-label justify-content-lg-center justify-content-xl-center"><b>ИД</b></label>
+                                                    <input id="deleteId" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" readonly>
+                                                </div>
+                                                <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
+                                                    <label for="deleteFirstName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Имя</b></label>
+                                                    <input id="deleteFirstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                </div>
+                                                <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
+                                                    <label for="deleteLastName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Фамилия</b></label>
+                                                    <input id="deleteLastName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                </div>
+                                                <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
+                                                    <label for="deleteAge" class="form-label justify-content-lg-center justify-content-xl-center"><b>Возраст</b></label>
+                                                    <input id="deleteAge" type="number" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                </div>
+                                                <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
+                                                    <label for="deleteLogin" class="form-label justify-content-lg-center justify-content-xl-center"><b>Електронная почта</b></label>
+                                                    <input id="deleteLogin" type="email" class="form-control form-control-sm justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                </div>
+                                                <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
+                                                    <label for="deletePassword" class="form-label justify-content-lg-center justify-content-xl-center"><b></b></label>
+                                                    <input id="deletePassword" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                </div>
+                                                <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
+                                                    <label for="deleteRoles" class="form-label justify-content-lg-center justify-content-xl-center"><b>Роли</b></label>
+                                                    <select id="deleteRoles" class="form-select justify-content-lg-center align-items-lg-center" multiple="multiple" style="width: 50%" disabled>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Закрыть</button>
+                                            <button class="btn btn-primary" type="button" onclick="deleteUser()">Удалить</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
                         <div>

@@ -32,6 +32,11 @@ public class RequestJSController {
         return ResponseEntity.ok(userService.getUserByLogin(principal.getName()));
     }
 
+    @GetMapping("/js/user/{id}")
+    public ResponseEntity<User> getUserId(@PathVariable long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
     @GetMapping("/js/users")
     public ResponseEntity<List<User>> getUsers() {
         System.out.println("Запрос юзеров, ответ таков: " + userService.getAllUsers());
@@ -48,6 +53,20 @@ public class RequestJSController {
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         System.out.println("Сохранение юзера: " + user);
         userService.saveUser(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/js/editUser")
+    public ResponseEntity<User> editUser(@RequestBody User user) {
+        System.out.println("Изменение юзера: " + user);
+        userService.updateUser(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/js/deleteUser")
+    public ResponseEntity<User> deleteUser(@RequestBody User user) {
+        System.out.println("Удаление юзера: " + user);
+        userService.removeUserById(user.getId());
         return ResponseEntity.ok(user);
     }
 }
