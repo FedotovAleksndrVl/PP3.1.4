@@ -1,11 +1,9 @@
-
 async function getRoles(type){
     let answer = await fetch("/js/roles")
 
     if (answer.ok) {
         let roles = await answer.json()
         setRoles(roles, type)
-        //alert (roles.map((role) => `${role.value}`).join(", "))
     } else {
         alert("что-то пошло не так, статус ошибки: " + answer.status)
     }
@@ -37,7 +35,6 @@ async function getUserId(id, type) {
     let answer = await fetch("js/user/" + id)
     if (answer.ok) {
         let User = await answer.json()
-        //alert( JSON.stringify(User))
         await showUser(User, type)
     } else {
         alert("что-то пошло не так, статус ошибки: " + answer.status)

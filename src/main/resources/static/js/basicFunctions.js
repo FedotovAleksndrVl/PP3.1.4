@@ -1,11 +1,9 @@
 function loadUserBar(user) {
-    //alert("юзер бар " + user.login)
     const userBar = document.getElementById("userBar")
     userBar.innerHTML = user.login + " ваша роль: " + user.roles.map((role) => `${role.value}`).join(", ")
 }
 
 function tableUserUpdate(user) {
-    //alert("юзер таблица " + user.login)
     const tableUser = document.getElementById("tableUser")
     tableUser.innerHTML = `<tr>
             <td>${user.id}</td>
@@ -141,11 +139,6 @@ async function newUser() {
             }
         }
     }
-
-
-
-
-
 }
 
 async function notSaveLogin (){
