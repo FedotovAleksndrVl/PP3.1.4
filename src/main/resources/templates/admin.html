@@ -29,13 +29,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="d-flex align-items-start">
-            <div class="col-lg-1 col-md-3">
+            <div class="col-lg-2 col-md-2">
                 <div class="nav flex-column nav-pills me-3" id="myTabM" role="tablist" aria-orientation="vertical">
                     <button class="nav-link active" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="true" onclick="getUsers()">Админ</button>
                     <button class="nav-link" id="user-tab" data-bs-toggle="tab" data-bs-target="#user" type="button" role="tab" aria-controls="user" aria-selected="false" onclick="getUser()">Юзер</button>
                 </div>
             </div>
-            <div class="col-lg-3  col-md-5">
+            <div class="col-lg-6  col-md-8">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
                         <div>
@@ -46,7 +46,7 @@
                                 <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true" onclick="getUsers()">Пользователи</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="false" onclick='getRoles("roles"); setPlaceholder("")'>Создать нового</button>
+                                <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="false" onclick='getRoles("roles"); notSaveLogin(); setPlaceholder("")'>Создать нового</button>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContents">
@@ -92,11 +92,11 @@
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="login"><b>Электронная почта</b></label>
-                                                    <input id="login" type="email" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Адрес электронной почты" required>
+                                                    <input id="login" type="email" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="Адрес электронной почты" value="" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="password"><b>Пароль</b></label>
-                                                    <input id="password" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="пароль" required>
+                                                    <input id="password" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 400px;" placeholder="пароль" value="" required>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label id="rolesLabel" for="roles"><b>Роли</b></label>
@@ -146,7 +146,7 @@
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label for="editpassword" class="form-label justify-content-lg-center justify-content-xl-center"><b>Пароль</b></label>
-                                                    <input id="editpassword" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" required>
+                                                    <input id="editpassword" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%">
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
                                                     <label id="editrolesLabel" for="editRoles" class="form-label justify-content-lg-center justify-content-xl-center"><b>Роли</b></label>
@@ -157,7 +157,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Закрыть</button>
+                                            <button class="btn btn-secondary" id="editModalButtonClose" type="button" data-bs-dismiss="modal">Закрыть</button>
                                             <button class="btn btn-primary" type="button" onclick="editUser()">Применить</button>
                                         </div>
                                     </form>
@@ -176,39 +176,39 @@
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="deleteId" class="form-label justify-content-lg-center justify-content-xl-center"><b>ИД</b></label>
-                                                    <input id="deleteId" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" readonly>
+                                                    <label for="deleteid" class="form-label justify-content-lg-center justify-content-xl-center"><b>ИД</b></label>
+                                                    <input id="deleteid" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" readonly>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="deleteFirstName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Имя</b></label>
-                                                    <input id="deleteFirstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                    <label for="deletefirstName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Имя</b></label>
+                                                    <input id="deletefirstName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="deleteLastName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Фамилия</b></label>
-                                                    <input id="deleteLastName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                    <label for="deletelastName" class="form-label justify-content-lg-center justify-content-xl-center"><b>Фамилия</b></label>
+                                                    <input id="deletelastName" type="text" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="deleteAge" class="form-label justify-content-lg-center justify-content-xl-center"><b>Возраст</b></label>
-                                                    <input id="deleteAge" type="number" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                    <label for="deleteage" class="form-label justify-content-lg-center justify-content-xl-center"><b>Возраст</b></label>
+                                                    <input id="deleteage" type="number" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="deleteLogin" class="form-label justify-content-lg-center justify-content-xl-center"><b>Електронная почта</b></label>
-                                                    <input id="deleteLogin" type="email" class="form-control form-control-sm justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                    <label for="deletelogin" class="form-label justify-content-lg-center justify-content-xl-center"><b>Електронная почта</b></label>
+                                                    <input id="deletelogin" type="email" class="form-control form-control-sm justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="deletePassword" class="form-label justify-content-lg-center justify-content-xl-center"><b></b></label>
-                                                    <input id="deletePassword" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
+                                                    <label for="deletepassword" class="form-label justify-content-lg-center justify-content-xl-center"><b>Пароль</b></label>
+                                                    <input id="deletepassword" type="password" class="form-control justify-content-lg-center align-items-lg-center" style="width: 50%" disabled>
                                                 </div>
                                                 <div class="col d-flex flex-column align-items-lg-center align-items-xl-center">
-                                                    <label for="deleteRoles" class="form-label justify-content-lg-center justify-content-xl-center"><b>Роли</b></label>
-                                                    <select id="deleteRoles" class="form-select justify-content-lg-center align-items-lg-center" multiple="multiple" style="width: 50%" disabled>
+                                                    <label for="deleteroles" class="form-label justify-content-lg-center justify-content-xl-center"><b>Роли</b></label>
+                                                    <select id="deleteroles" class="form-select justify-content-lg-center align-items-lg-center" multiple="multiple" style="width: 50%" disabled>
 
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Закрыть</button>
+                                            <button class="btn btn-secondary" id="deleteModalButtonClose" type="button" data-bs-dismiss="modal">Закрыть</button>
                                             <button class="btn btn-primary" type="button" onclick="deleteUser()">Удалить</button>
                                         </div>
                                     </form>

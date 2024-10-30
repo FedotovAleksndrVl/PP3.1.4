@@ -30,10 +30,21 @@ public class RequestJSController {
     public ResponseEntity<User> getUser(Principal principal) {
         System.out.println("Запрос юзера, ответ таков: " + userService.getUserByLogin(principal.getName()));
         return ResponseEntity.ok(userService.getUserByLogin(principal.getName()));
+    } //userService.ifLogin(user.getLogin())
+
+    @GetMapping("/js/userLogin/{login}")
+    public ResponseEntity<User> getUserLogin(@PathVariable String login) {
+        System.out.println("Запрос логина, результат таков: " + userService.ifLogin(login));
+        if (userService.ifLogin(login)) {
+            System.out.println("Запрос логина, ответ таков: " + userService.getUserByLogin(login));
+            return ResponseEntity.ok(userService.getUserByLogin(login));
+        }
+        return ResponseEntity.ok(new User());
     }
 
     @GetMapping("/js/user/{id}")
     public ResponseEntity<User> getUserId(@PathVariable long id) {
+        System.out.println("Запрос id, ответ таков: " + userService.getUserById(id));
         return ResponseEntity.ok(userService.getUserById(id));
     }
 

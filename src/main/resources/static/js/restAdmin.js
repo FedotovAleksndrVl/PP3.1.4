@@ -35,9 +35,9 @@ async function getUser() {
 
 async function getUserId(id, type) {
     let answer = await fetch("js/user/" + id)
-
     if (answer.ok) {
         let User = await answer.json()
+        //alert( JSON.stringify(User))
         await showUser(User, type)
     } else {
         alert("что-то пошло не так, статус ошибки: " + answer.status)
@@ -56,12 +56,12 @@ async function getUsers() {
 
 async function saveUser(user) {
     const answer = await fetch("js/saveUser",{
-            method: 'Post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(user)
+        method: 'Post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(user)
     })
     if (!answer.ok) {
-        alert("что-то пошло не так, статус ошибки: " + answer.status)
+        answer.status === 500 ? alert("вероятно логин уже занят, повторите попытку") : alert("что-то пошло не так, статус ошибки: " + answer.status)
     }
 }
 
@@ -72,7 +72,7 @@ async function sendEditUser(user) {
         body: JSON.stringify(user)
     })
     if (!answer.ok) {
-        alert("что-то пошло не так, статус ошибки: " + answer.status)
+        answer.status === 500 ? alert("вероятно логин уже занят, попытка блокирована") : alert("что-то пошло не так, статус ошибки: " + answer.status)
     }
 }
 

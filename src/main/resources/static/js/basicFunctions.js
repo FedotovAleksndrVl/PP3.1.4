@@ -17,7 +17,6 @@ function tableUserUpdate(user) {
 }
 
 function tableUsersUpdate(users) {
-    //alert("таблица юзеров " + users[0].login)
     const tableUsers = document.getElementById("tableUsers")
     let result = ""
     for (let user of users) {
@@ -28,7 +27,7 @@ function tableUsersUpdate(users) {
             <td>${user.age}</td>
             <td>${user.login}</td>
             <td>${user.roles.map((role) => `${role.value}`).join(", ")}</td>
-            <td><button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#editModal" onclick="getUserId(${user.id},'edit')">Изменить</button></td>
+            <td><button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setPlaceholder('edit'); getUserId(${user.id},'edit')">Изменить</button></td>
             <td><button type="button" class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="getUserId(${user.id},'delete')">Удалить</button></td>                     
         `
     }
@@ -36,7 +35,7 @@ function tableUsersUpdate(users) {
     tableUsers.innerHTML = result
 }
 
-function validation (id, type, oldValidation) {
+function validation(id, type, oldValidation) {
     let result = true
     switch (type) {
         case "text":
@@ -48,7 +47,6 @@ function validation (id, type, oldValidation) {
             break
 
         case "email":
-            //alert("емайл")
             result = /^[а-яА-Яa-zA-Z0-9._%+-]+@[а-яА-Яa-zA-Z0-9-]+.+.[а-яА-Яa-zA-Z]{2,4}$/i.test(id.value)
             if (!result) {
                 id.value = ""
@@ -70,10 +68,13 @@ function validation (id, type, oldValidation) {
             break
 
         case "password":
-           if (id.value.length < 3) {
-               id.value = ""
-               id.placeholder = "минимальная длина 3 символа"
-               result = false
+            if (id.value.length === 0 && id.id !== "password") {
+                break
+            }
+            if (id.value.length < 3) {
+                id.value = ""
+                id.placeholder = "минимальная длина 3 символа"
+                result = false
             }
             break
 
@@ -81,6 +82,8 @@ function validation (id, type, oldValidation) {
             if (id.selectedOptions.length < 1) {
                 document.getElementById(id.id + "Label").innerHTML = `<b><font color="red">Выбирете роль</font></b>`
                 result = false
+            } else {
+                document.getElementById(id.id + "Label").innerHTML = `<b><font color="black">Роль</font></b>`
             }
             break
     }
@@ -114,21 +117,40 @@ async function newUser() {
     valid = validation(options, "select",valid)
 
     options = options.selectedOptions
-    if (valid) {
-        const newUser = {
-            firstName: firstName.value,
-            lastName: lastName.value,
-            age: age.value,
-            login: login.value,
-            password: password.value,
-            roles: Array.from(options).map(({ value }) => value)
-        }
-        await saveUser(newUser)
-        document.querySelector('#admin-tab').click()
-        document.getElementById("formNewUser").reset()
 
-        //setPlaceholder("")
+    let answer = await fetch("js/userLogin/" + login.value)
+    if (answer.ok) {
+        let result = await answer.json()
+        if ((result).login !== null) {
+            login.value = ""
+            login.placeholder = "логин занят"
+        } else {
+            if (valid) {
+                const newUser = {
+                    firstName: firstName.value,
+                    lastName: lastName.value,
+                    age: age.value,
+                    login: login.value,
+                    password: password.value,
+                    roles: Array.from(options).map(({value}) => value)
+                }
+                await saveUser(newUser)
+                document.getElementById("users-tab").click()
+                //document.querySelector("#users-tab").click()
+                document.getElementById("formNewUser").reset()
+            }
+        }
     }
+
+
+
+
+
+}
+
+async function notSaveLogin (){
+    document.getElementById('login').value = ""
+    document.getElementById('password').value = ""
 }
 
 async function showUser(User, type){
@@ -138,10 +160,11 @@ async function showUser(User, type){
     document.getElementById(type + 'lastName').value = User.lastName
     document.getElementById(type + 'age').value = User.age
     document.getElementById(type + 'login').value = User.login
+    document.getElementById(type + 'password').value = ""
 
     await getRoles(type+"roles")
 
-    for (let option of  document.getElementById(type + 'Roles').getElementsByTagName('option')) {
+    for (let option of  document.getElementById(type + 'roles').getElementsByTagName('option')) {
         for (let role of User.roles) {
             if (option.value === role.role) {
                 option.selected = true
@@ -181,21 +204,21 @@ async function editUser() {
             roles: Array.from(options).map(({ value }) => value)
         }
         await sendEditUser(newUser)
-        document.querySelector('#admin-tab').click()
-        setPlaceholder("edit")
+        await getUsers()
+        document.getElementById("editModalButtonClose").click()
     }
 }
 
 async function deleteUser() {
 
-    const id = document.getElementById('deleteId')
+    const id = document.getElementById('deleteid')
     const newUser = {
         id: id.value,
     }
 
     await sendDeleteUser(newUser)
-    document.querySelector('#admin-tab').click()
-
+    await getUsers()
+    document.getElementById("deleteModalButtonClose").click()
 }
 
 function setRoles(roles, type){
