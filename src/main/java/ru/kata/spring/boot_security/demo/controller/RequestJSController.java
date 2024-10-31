@@ -17,13 +17,11 @@ public class RequestJSController {
 
     final private UserServiceImpl userService;
     final private RoleServiceImpl roleService;
-    private final UserController userController;
 
     @Autowired
-    public RequestJSController(UserServiceImpl userService, RoleServiceImpl roleService, UserController userController) {
+    public RequestJSController(UserServiceImpl userService, RoleServiceImpl roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.userController = userController;
     }
 
     @GetMapping("/js/user")
